@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Elao\\Bundle\\ElaoRestActionBundle\\": "."
+            "Elao\\Bundle\\RestActionBundle\\": "."
         }
     },
     "extra": {
