@@ -1,0 +1,31 @@
+{
+    "name": "elao/rest-action-bundle",
+    "type": "symfony-bundle",
+    "description": "A set of REST actions for elao/admin-bundle",
+    "keywords": ["rest"],
+    "homepage": "https://github.com/Elao/ElaoRestActionBundle.git",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Jarrand",
+            "homepage": "https://github.com/Tom32i"
+        }
+    ],
+    "require": {
+        "php": "~5.4",
+        "symfony/framework-bundle": "~2.5"
+    },
+    "suggest": {
+        "elao/admin-bundle": "0.3.*@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Elao\\Bundle\\ElaoRestActionBundle\\": "."
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
