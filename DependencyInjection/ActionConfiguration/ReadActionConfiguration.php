@@ -22,6 +22,19 @@ class ReadActionConfiguration extends ActionConfiguration
     /**
      * {@inheritdoc}
      */
+    protected function buildParametersTree(NodeParentInterface $node)
+    {
+        return $node
+            ->scalarNode('root_key')
+                ->defaultValue($this->getRootKey())
+                ->cannotBeEmpty()
+            ->end()
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getRouteName()
     {
         return sprintf('%s_%s', $this->action->getAdministration()->getNameLowerCase(), $this->action->getAlias());
@@ -32,7 +45,7 @@ class ReadActionConfiguration extends ActionConfiguration
      */
     protected function getRoutePattern()
     {
-        return sprintf('/%s/{id}', $this->action->getAdministration()->getNameUrl());
+        return sprintf('/%s/{id}', $this->action->getAdministration()->getNameUrl(true));
     }
 
     /**
@@ -49,6 +62,16 @@ class ReadActionConfiguration extends ActionConfiguration
     protected function getRouteController()
     {
         return sprintf('%s:getResponse', $this->action->getServiceId());
+    }
+
+    /**
+     * Get root key for response object
+     *
+     * @return string
+     */
+    protected function getRootKey()
+    {
+        return $this->action->getAdministration()->getName();
     }
 
     /**

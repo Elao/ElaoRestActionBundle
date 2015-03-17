@@ -28,6 +28,6 @@ class CreateAction extends FormAction
      */
     protected function getModel(Request $request)
     {
-        return $this->modelManager->create();
+        return $this->modelManager->create($request->get('_route_params'));
     }
 }

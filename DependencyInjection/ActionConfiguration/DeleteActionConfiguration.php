@@ -45,7 +45,7 @@ class DeleteActionConfiguration extends ActionConfiguration
      */
     protected function getRoutePattern()
     {
-        return sprintf('/%s/{id}', $this->action->getAdministration()->getNameUrl());
+        return sprintf('/%s/{id}', $this->action->getAdministration()->getNameUrl(true));
     }
 
     /**

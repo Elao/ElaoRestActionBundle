@@ -41,7 +41,7 @@ class ReadAction extends Action
      */
     protected function getViewParameters(Request $request, $model)
     {
-        return ['model' => $model];
+        return [$this->getRootKey() => $model];
     }
 
     /**
@@ -60,5 +60,15 @@ class ReadAction extends Action
         }
 
         return $model;
+    }
+
+    /**
+     * Get root key for response object
+     *
+     * @return string
+     */
+    protected function getRootKey()
+    {
+        return $this->parameters['root_key'];
     }
 }

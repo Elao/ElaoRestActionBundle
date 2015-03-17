@@ -45,7 +45,7 @@ class CreateActionConfiguration extends ActionConfiguration
      */
     protected function getRoutePattern()
     {
-        return sprintf('/%s', $this->action->getAdministration()->getNameUrl());
+        return sprintf('/%s', $this->action->getAdministration()->getNameUrl(true));
     }
 
     /**

@@ -174,7 +174,7 @@ class ListAction extends Action
      */
     protected function getViewParameters(Request $request, $models)
     {
-        return ['models' => $models];
+        return [$this->getRootKey() => $models];
     }
 
     /**
@@ -187,5 +187,15 @@ class ListAction extends Action
     protected function getFormType($formType)
     {
         return class_exists($formType) ? new $formType : $formType;
+    }
+
+    /**
+     * Get root key for response object
+     *
+     * @return string
+     */
+    protected function getRootKey()
+    {
+        return $this->parameters['root_key'];
     }
 }

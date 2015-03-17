@@ -46,6 +46,10 @@ class ListActionConfiguration extends ActionConfiguration
                     ->end()
                 ->end()
             ->end()
+            ->scalarNode('root_key')
+                ->defaultValue($this->getRootKey())
+                ->cannotBeEmpty()
+            ->end()
         ;
     }
 
@@ -62,7 +66,7 @@ class ListActionConfiguration extends ActionConfiguration
      */
     protected function getRoutePattern()
     {
-        return sprintf('/%s', $this->action->getAdministration()->getNameUrl());
+        return sprintf('/%s', $this->action->getAdministration()->getNameUrl(true));
     }
 
     /**
@@ -81,6 +85,16 @@ class ListActionConfiguration extends ActionConfiguration
     protected function getFilterFormType()
     {
         return sprintf('%s_filter', $this->action->getAdministration()->getNameLowerCase());
+    }
+
+    /**
+     * Get root key for response object
+     *
+     * @return string
+     */
+    protected function getRootKey()
+    {
+        return $this->action->getAdministration()->getName(true);
     }
 
     /**
