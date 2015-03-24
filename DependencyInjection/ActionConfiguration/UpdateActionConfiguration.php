@@ -29,6 +29,10 @@ class UpdateActionConfiguration extends ActionConfiguration
                 ->cannotBeEmpty()
                 ->defaultValue($this->getFormType())
             ->end()
+            ->scalarNode('root_key')
+                ->defaultValue($this->getRootKey())
+                ->cannotBeEmpty()
+            ->end()
         ;
     }
 
@@ -70,6 +74,16 @@ class UpdateActionConfiguration extends ActionConfiguration
     protected function getFormType()
     {
         return $this->action->getAdministration()->getNameLowerCase();
+    }
+
+    /**
+     * Get root key for response object
+     *
+     * @return string
+     */
+    protected function getRootKey()
+    {
+        return $this->action->getAdministration()->getName();
     }
 
     /**

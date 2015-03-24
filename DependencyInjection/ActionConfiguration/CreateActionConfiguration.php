@@ -29,6 +29,10 @@ class CreateActionConfiguration extends ActionConfiguration
                 ->cannotBeEmpty()
                 ->defaultValue($this->getFormType())
             ->end()
+            ->scalarNode('root_key')
+                ->defaultValue($this->getRootKey())
+                ->cannotBeEmpty()
+            ->end()
         ;
     }
 
@@ -62,6 +66,16 @@ class CreateActionConfiguration extends ActionConfiguration
     protected function getFormType()
     {
         return $this->action->getAdministration()->getNameLowerCase();
+    }
+
+    /**
+     * Get root key for response object
+     *
+     * @return string
+     */
+    protected function getRootKey()
+    {
+        return $this->action->getAdministration()->getName();
     }
 
     /**

@@ -123,7 +123,7 @@ abstract class FormAction extends Action
      */
     protected function getSuccessViewParameters(Request $request, Form $form)
     {
-        return ['model' => $form->getData()];
+        return [$this->getRootKey() => $form->getData()];
     }
 
     /**
@@ -149,5 +149,15 @@ abstract class FormAction extends Action
     protected function getFormType($formType)
     {
         return class_exists($formType) ? new $formType : $formType;
+    }
+
+    /**
+     * Get root key for response object
+     *
+     * @return string
+     */
+    protected function getRootKey()
+    {
+        return $this->parameters['root_key'];
     }
 }
