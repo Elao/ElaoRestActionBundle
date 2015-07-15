@@ -11,8 +11,19 @@
 
 namespace Elao\Bundle\RestActionBundle;
 
+use Elao\Bundle\RestActionBundle\DependencyInjection\Compiler\JmsSerializerCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class ElaoRestActionBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new JmsSerializerCompilerPass());
+    }
 }

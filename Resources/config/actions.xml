@@ -24,9 +24,6 @@
     <services>
         <!-- REST action -->
         <service id="elao_rest_action.action" class="%elao_rest_action.action.class%" parent="elao_admin.action" abstract="true">
-            <call method="setSerializer">
-                <argument type="service" id="jms_serializer" />
-            </call>
         </service>
 
         <!-- List action -->

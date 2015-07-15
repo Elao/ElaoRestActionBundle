@@ -27,7 +27,16 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('elao_rest_action');
+        $rootNode    = $treeBuilder->root('elao_rest_action');
+
+        $rootNode
+            ->children()
+                ->scalarNode('serializer')
+                    ->info('Serializer service for REST actions')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

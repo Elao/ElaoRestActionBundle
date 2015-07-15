@@ -11,10 +11,10 @@
 
 namespace Elao\Bundle\RestActionBundle\Action;
 
+use Elao\Bundle\AdminBundle\Action\Action as BaseAction;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use JMS\Serializer\Serializer;
-use Elao\Bundle\AdminBundle\Action\Action as BaseAction;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Abstract REST Action
@@ -27,7 +27,7 @@ abstract class Action extends BaseAction
     /**
      * Serializer
      *
-     * @var Serializer
+     * @var SerializerInterface
      */
     protected $serializer;
 
@@ -39,9 +39,9 @@ abstract class Action extends BaseAction
     /**
      * Set serializer
      *
-     * @param Serializer $serializer
+     * @param SerializerInterface $serializer
      */
-    public function setSerializer(Serializer $serializer)
+    public function setSerializer(SerializerInterface $serializer)
     {
         $this->serializer = $serializer;
     }
