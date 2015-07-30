@@ -11,9 +11,9 @@
 
 namespace Elao\Bundle\RestActionBundle\Action;
 
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Form\Form;
 
 /**
  * The delete action for update pages
@@ -21,17 +21,9 @@ use Symfony\Component\Form\Form;
 class DeleteAction extends FormAction
 {
     /**
-     * {@inheritdoc}
+     * Default success code
      */
-    public function getResponse(Request $request)
-    {
-        $format = $this->getFormat($request);
-        $model  = $this->getModel($request);
-
-        $this->deleteModel($model);
-
-        return $this->createResponse(null, 204, $format);
-    }
+    static public $successCode = 204;
 
     /**
      * {@inheritdoc}
@@ -50,8 +42,16 @@ class DeleteAction extends FormAction
     /**
      * {@inheritdoc}
      */
-    protected function deleteModel($model)
+    protected function onFormValid(Form $form)
     {
-        $this->modelManager->delete($model);
+        $this->modelManager->delete($form->getData());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getSuccessViewParameters(Request $request, Form $form)
+    {
+        return null;
     }
 }

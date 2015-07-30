@@ -27,7 +27,7 @@ class DeleteActionConfiguration extends ActionConfiguration
         return $node
             ->scalarNode('form_type')
                 ->cannotBeEmpty()
-                ->defaultValue('Elao\Bundle\AdminBundle\Form\Type\DeleteType')
+                ->defaultValue('Elao\Bundle\RestActionBundle\Form\Type\DeleteType')
             ->end()
         ;
     }
