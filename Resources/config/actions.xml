@@ -19,6 +19,13 @@
         <parameter key="elao_rest_action.action_configuration.read.class">Elao\Bundle\RestActionBundle\DependencyInjection\ActionConfiguration\ReadActionConfiguration</parameter>
         <parameter key="elao_rest_action.action_configuration.update.class">Elao\Bundle\RestActionBundle\DependencyInjection\ActionConfiguration\UpdateActionConfiguration</parameter>
         <parameter key="elao_rest_action.action_configuration.delete.class">Elao\Bundle\RestActionBundle\DependencyInjection\ActionConfiguration\DeleteActionConfiguration</parameter>
+
+        <!-- Alias configuration classes -->
+        <parameter key="elao_rest_action.action_configuration.list.alias">list</parameter>
+        <parameter key="elao_rest_action.action_configuration.create.alias">create</parameter>
+        <parameter key="elao_rest_action.action_configuration.read.alias">read</parameter>
+        <parameter key="elao_rest_action.action_configuration.update.alias">update</parameter>
+        <parameter key="elao_rest_action.action_configuration.delete.alias">delete</parameter>
     </parameters>
 
     <services>
@@ -28,31 +35,31 @@
 
         <!-- List action -->
         <service id="elao_rest_action.action.list" class="%elao_rest_action.action.list.class%" parent="elao_rest_action.action" abstract="true">
-            <tag name="elao_admin.action" alias="list" configuration="%elao_rest_action.action_configuration.list.class%"/>
+            <tag name="elao_admin.action" alias="%elao_rest_action.action_configuration.list.alias%" configuration="%elao_rest_action.action_configuration.list.class%"/>
             <argument type="service" id="form.factory" />
             <argument type="service" id="knp_paginator" />
         </service>
 
         <!-- Create action -->
         <service id="elao_rest_action.action.create" class="%elao_rest_action.action.create.class%" parent="elao_rest_action.action" abstract="true">
-            <tag name="elao_admin.action" alias="create" configuration="%elao_rest_action.action_configuration.create.class%"/>
+            <tag name="elao_admin.action" alias="%elao_rest_action.action_configuration.create.alias%" configuration="%elao_rest_action.action_configuration.create.class%"/>
             <argument type="service" id="form.factory" />
         </service>
 
         <!-- Read action -->
         <service id="elao_rest_action.action.read" class="%elao_rest_action.action.read.class%" parent="elao_rest_action.action" abstract="true">
-            <tag name="elao_admin.action" alias="read" configuration="%elao_rest_action.action_configuration.read.class%"/>
+            <tag name="elao_admin.action" alias="%elao_rest_action.action_configuration.read.alias%" configuration="%elao_rest_action.action_configuration.read.class%"/>
         </service>
 
         <!-- Update action -->
         <service id="elao_rest_action.action.update" class="%elao_rest_action.action.update.class%" parent="elao_rest_action.action" abstract="true">
-            <tag name="elao_admin.action" alias="update" configuration="%elao_rest_action.action_configuration.update.class%"/>
+            <tag name="elao_admin.action" alias="%elao_rest_action.action_configuration.update.alias%" configuration="%elao_rest_action.action_configuration.update.class%"/>
             <argument type="service" id="form.factory" />
         </service>
 
         <!-- Delete action -->
         <service id="elao_rest_action.action.delete" class="%elao_rest_action.action.delete.class%" parent="elao_rest_action.action" abstract="true">
-            <tag name="elao_admin.action" alias="delete" configuration="%elao_rest_action.action_configuration.delete.class%"/>
+            <tag name="elao_admin.action" alias="%elao_rest_action.action_configuration.delete.alias%" configuration="%elao_rest_action.action_configuration.delete.class%"/>
             <argument type="service" id="form.factory" />
         </service>
     </services>
