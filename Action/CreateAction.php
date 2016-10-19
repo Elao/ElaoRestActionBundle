@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * The default action for create pages
  */
-class CreateAction extends FormAction
+class CreateAction extends AbsractFormAction
 {
     /**
      * Success code
@@ -28,6 +28,6 @@ class CreateAction extends FormAction
      */
     protected function getModel(Request $request)
     {
-        return $this->modelManager->create($request->get('_route_params'));
+        return $this->repository->create($request->get('_route_params'));
     }
 }

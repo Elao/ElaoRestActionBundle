@@ -5,37 +5,36 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <!-- REST action -->
-        <service id="elao_rest_action.action" class="Elao\Bundle\RestActionBundle\Action\Action" parent="elao_admin.action" abstract="true"/>
+        <!-- Abstract Action -->
+        <service id="elao_rest_action.action" class="Elao\Bundle\RestActionBundle\Action\AbstractAction" abstract="true">
+            <argument><!-- Repository --></argument>
+        </service>
+
+        <!-- Form Abstract Action -->
+        <service id="elao_rest_action.action.form" class="Elao\Bundle\RestActionBundle\Action\AbstractFormAction" parent="elao_rest_action.action" abstract="true">
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="elao_admin.notifier" />
+            <argument type="service" id="elao_admin.route_resolver" />
+        </service>
 
         <!-- List action -->
         <service id="elao_rest_action.action.list" class="Elao\Bundle\RestActionBundle\Action\ListAction" parent="elao_rest_action.action" abstract="true">
-            <tag name="elao_admin.action" alias="list" configuration="Elao\Bundle\RestActionBundle\DependencyInjection\ActionConfiguration\ListActionConfiguration"/>
-            <argument type="service" id="form.factory" />
-            <argument type="service" id="knp_paginator" />
-        </service>
-
-        <!-- Create action -->
-        <service id="elao_rest_action.action.create" class="Elao\Bundle\RestActionBundle\Action\CreateAction" parent="elao_rest_action.action" abstract="true">
-            <tag name="elao_admin.action" alias="create" configuration="Elao\Bundle\RestActionBundle\DependencyInjection\ActionConfiguration\CreateActionConfiguration"/>
-            <argument type="service" id="form.factory" />
         </service>
 
         <!-- Read action -->
         <service id="elao_rest_action.action.read" class="Elao\Bundle\RestActionBundle\Action\ReadAction" parent="elao_rest_action.action" abstract="true">
-            <tag name="elao_admin.action" alias="read" configuration="Elao\Bundle\RestActionBundle\DependencyInjection\ActionConfiguration\ReadActionConfiguration"/>
+        </service>
+
+        <!-- Create action -->
+        <service id="elao_rest_action.action.create" class="Elao\Bundle\RestActionBundle\Action\CreateAction" parent="elao_rest_action.action.form" abstract="true">
         </service>
 
         <!-- Update action -->
-        <service id="elao_rest_action.action.update" class="Elao\Bundle\RestActionBundle\Action\UpdateAction" parent="elao_rest_action.action" abstract="true">
-            <tag name="elao_admin.action" alias="update" configuration="Elao\Bundle\RestActionBundle\DependencyInjection\ActionConfiguration\UpdateActionConfiguration"/>
-            <argument type="service" id="form.factory" />
+        <service id="elao_rest_action.action.update" class="Elao\Bundle\RestActionBundle\Action\UpdateAction" parent="elao_rest_action.action.form" abstract="true">
         </service>
 
         <!-- Delete action -->
-        <service id="elao_rest_action.action.delete" class="Elao\Bundle\RestActionBundle\Action\DeleteAction" parent="elao_rest_action.action" abstract="true">
-            <tag name="elao_admin.action" alias="delete" configuration="Elao\Bundle\RestActionBundle\DependencyInjection\ActionConfiguration\DeleteActionConfiguration"/>
-            <argument type="service" id="form.factory" />
+        <service id="elao_rest_action.action.delete" class="Elao\Bundle\RestActionBundle\Action\DeleteAction" parent="elao_rest_action.action.form" abstract="true">
         </service>
     </services>
 </container>

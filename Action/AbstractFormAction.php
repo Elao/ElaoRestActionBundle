@@ -11,18 +11,19 @@
 
 namespace Elao\Bundle\RestActionBundle\Action;
 
+use Elao\Bundle\AdminBundle\Behaviour\RepositoryInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * The default action for create and update pages
  */
-abstract class FormAction extends Action
+abstract class AbstractFormAction extends AbstractAction
 {
     /**
      * Default success code
@@ -42,12 +43,21 @@ abstract class FormAction extends Action
     protected $formFactory;
 
     /**
-     * Indject dependencies
+     * Inject dependencies
      *
+     * @param RepositoryInterface $repository
+     * @param SerializerInterface $serializer
      * @param FormFactoryInterface $formFactory
+     * @param array $parameters
      */
-    public function __construct(FormFactoryInterface $formFactory)
-    {
+    public function __construct(
+        RepositoryInterface $repository,
+        SerializerInterface $serializer,
+        FormFactoryInterface $formFactory,
+        array $parameters
+    ) {
+        parent::__construct($repository, $serializer, $parameters);
+
         $this->formFactory = $formFactory;
     }
 
@@ -65,12 +75,20 @@ abstract class FormAction extends Action
         if (!$form->isValid()) {
             $this->onFormInvalid($form);
 
-            return $this->createResponse($this->getErrorViewParameters($request, $form), static::$errorCode, $format);
+            return $this->createResponse(
+                $this->getErrorViewParameters($request, $form),
+                static::$errorCode,
+                $format
+            );
         }
 
         $this->onFormValid($form);
 
-        return $this->createResponse($this->getSuccessViewParameters($request, $form), static::$successCode, $format);
+        return $this->createResponse(
+            $this->getSuccessViewParameters($request, $form),
+            static::$successCode,
+            $format
+        );
     }
 
     /**
@@ -91,7 +109,8 @@ abstract class FormAction extends Action
      */
     protected function createForm($model)
     {
-        return $this->formFactory->create($this->getFormType($this->parameters['form_type']), $model);
+        return $this->formFactory
+            ->create($this->parameters['form'], $model);
     }
 
     /**
@@ -101,7 +120,7 @@ abstract class FormAction extends Action
      */
     protected function onFormValid(Form $form)
     {
-        $this->modelManager->persist($form->getData());
+        $this->repository->persist($form->getData());
     }
 
     /**
@@ -109,9 +128,7 @@ abstract class FormAction extends Action
      *
      * @param Form $form
      */
-    protected function onFormInvalid(Form $form)
-    {
-    }
+    protected function onFormInvalid(Form $form) {}
 
     /**
      * Get successview parameters
@@ -137,18 +154,6 @@ abstract class FormAction extends Action
     protected function getErrorViewParameters(Request $request, Form $form)
     {
         return ['errors' => $form->getErrors(true)];
-    }
-
-    /**
-     * Get form type
-     *
-     * @param string $formType
-     *
-     * @return string|Symfony\Component\Form\AbstractType
-     */
-    protected function getFormType($formType)
-    {
-        return class_exists($formType) ? new $formType : $formType;
     }
 
     /**

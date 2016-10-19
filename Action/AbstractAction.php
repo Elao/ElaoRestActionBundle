@@ -11,7 +11,8 @@
 
 namespace Elao\Bundle\RestActionBundle\Action;
 
-use Elao\Bundle\AdminBundle\Action\Action as BaseAction;
+use Elao\Bundle\AdminBundle\Behaviour\ActionInterface;
+use Elao\Bundle\AdminBundle\Behaviour\RepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -19,10 +20,24 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * Abstract REST Action
  */
-abstract class Action extends BaseAction
+abstract class AbstractAction implements ActionInterface
 {
     const FORMAT_JSON = 'json';
     const FORMAT_XML  = 'xml';
+
+    /**
+     * Repository
+     *
+     * @var RepositoryInterface
+     */
+    protected $repository;
+
+    /**
+     * Action config parameters
+     *
+     * @var array
+     */
+    protected $parameters;
 
     /**
      * Serializer
@@ -37,13 +52,20 @@ abstract class Action extends BaseAction
     protected static $formats;
 
     /**
-     * Set serializer
+     * Constructor
      *
+     * @param RepositoryInterface $repository
      * @param SerializerInterface $serializer
+     * @param array $parameters
      */
-    public function setSerializer(SerializerInterface $serializer)
-    {
+    public function __construct(
+        RepositoryInterface $repository,
+        SerializerInterface $serializer,
+        array $parameters
+    ) {
+        $this->repository = $repository;
         $this->serializer = $serializer;
+        $this->parameters = $parameters;
     }
 
     /**
@@ -65,7 +87,7 @@ abstract class Action extends BaseAction
         }
 
         throw new \Exception(sprintf(
-            'No acceptable content type found "%s" in supported  content types "%s".',
+            'No acceptable content type found "%s" in supported content types "%s".',
             implode(', ', $acceptableContentTypes),
             implode(', ', $supportedContentTypes)
         ));
@@ -138,7 +160,7 @@ abstract class Action extends BaseAction
         $formats = $this->getSupportedFormats();
 
         if (!isset($formats[$format])) {
-            throw new \Exception(sprintf('Unsopported format "%s".', $format));
+            throw new \Exception(sprintf('Unsupported format "%s".', $format));
         }
 
         return $formats[$format][0];

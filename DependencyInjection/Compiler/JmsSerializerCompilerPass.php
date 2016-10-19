@@ -34,9 +34,7 @@ class JmsSerializerCompilerPass implements CompilerPassInterface
             'elao_rest_action.serializer.jms',
             new Definition(
                 'Elao\Bundle\RestActionBundle\Serializer\JmsSerializer',
-                [
-                    new Reference('jms_serializer')
-                ]
+                [new Reference('jms_serializer')]
             )
         );
     }

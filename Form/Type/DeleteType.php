@@ -34,7 +34,7 @@ class DeleteType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'delete';
     }

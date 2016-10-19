@@ -17,17 +17,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * The default action for update pages
  */
-class UpdateAction extends FormAction
+class UpdateAction extends AbsractFormAction
 {
     /**
      * {@inheritdoc}
      */
     protected function getModel(Request $request)
     {
-        $model = $this->modelManager->find($request->get('_route_params'));
-
-        if (!$model) {
-            throw new NotFoundHttpException;
+        if (!$model = $this->repository->findOneBy($request->get('_route_params'))) {
+            throw new NotFoundHttpException();
         }
 
         return $model;
