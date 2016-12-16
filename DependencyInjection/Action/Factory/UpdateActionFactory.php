@@ -37,7 +37,7 @@ class UpdateActionFactory extends FormActionFactory
      */
     protected function getRoutePattern()
     {
-        return '/%-names-%/{id}';
+        return '/[-names-]/{id}';
     }
 
     /**

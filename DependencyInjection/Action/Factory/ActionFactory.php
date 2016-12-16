@@ -76,7 +76,7 @@ abstract class ActionFactory extends ElaoActionFactory
      */
     protected function getRootKey()
     {
-        return '%name%';
+        return '[name]';
     }
 
     /**
@@ -84,6 +84,6 @@ abstract class ActionFactory extends ElaoActionFactory
      */
     protected function getRouteName()
     {
-        return '%name%_%alias%';
+        return '[name]_[alias]';
     }
 }

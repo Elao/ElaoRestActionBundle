@@ -37,7 +37,7 @@ class ReadActionFactory extends ActionFactory
      */
     protected function getRoutePattern()
     {
-        return '/%-names-%/{id}';
+        return '/[-names-]/{id}';
     }
 
     /**

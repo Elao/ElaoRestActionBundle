@@ -37,6 +37,6 @@ class CreateActionFactory extends FormActionFactory
      */
     protected function getRoutePattern()
     {
-        return '/%-names-%';
+        return '/[-names-]';
     }
 }
