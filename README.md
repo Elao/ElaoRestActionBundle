@@ -9,7 +9,7 @@ Require the bundle in _Composer_:
 
 
 ```bash
-$ composer require elao/html-action-bundle
+$ composer require elao/rest-action-bundle
 ```
 
 Install the bundle in your _AppKernel_:
@@ -22,7 +22,7 @@ public function registerBundles()
 {
     $bundles = array(
         //...
-        new Elao\Bundle\HtmlActionBundle\ElaoHtmlActionBundle(),
+        new Elao\Bundle\RestActionBundle\ElaoRestActionBundle(),
     );
 }
 ```

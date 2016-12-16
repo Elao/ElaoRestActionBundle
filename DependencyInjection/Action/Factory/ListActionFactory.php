@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Elao\Bundle\HtmlActionBundle\DependencyInjection\Action\Factory;
+namespace Elao\Bundle\RestActionBundle\DependencyInjection\Action\Factory;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\Definition;

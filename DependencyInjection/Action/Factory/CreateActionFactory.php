@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Elao\Bundle\HtmlActionBundle\DependencyInjection\Action\Factory;
+namespace Elao\Bundle\RestActionBundle\DependencyInjection\Action\Factory;
 
 /**
  * Create action factory
