@@ -53,8 +53,10 @@ abstract class ActionFactory extends ElaoActionFactory
         parent::processConfig($rawConfig, $administration, $name, $alias);
 
         $this->repository = $this->config['repository'];
+        $this->serializer = $this->config['serializer'];
 
         unset($this->config['repository']);
+        unset($this->config['serializer']);
     }
 
     /**
@@ -66,6 +68,7 @@ abstract class ActionFactory extends ElaoActionFactory
     public function configureAction(Definition $definition)
     {
         $definition->replaceArgument(0, new Reference($this->repository));
+        $definition->replaceArgument(1, new Reference($this->serializer));
         $definition->addArgument($this->config);
     }
 

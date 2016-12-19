@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 
 class ElaoRestActionExtension extends Extension
 {
@@ -30,7 +31,8 @@ class ElaoRestActionExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('actions.xml');
 
-        $definition = $container->getDefinition('elao_rest_action.action');
-        $definition->addMethodCall('setSerializer', [new Reference($config['serializer'])]);
+        if ($config['serializer']) {
+            $container->setAlias('elao_rest_action.serializer.default', $config['serializer']);
+        }
     }
 }

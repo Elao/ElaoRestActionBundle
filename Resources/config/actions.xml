@@ -8,6 +8,7 @@
         <!-- Abstract Action -->
         <service id="elao_rest_action.action" class="Elao\Bundle\RestActionBundle\Action\AbstractAction" abstract="true">
             <argument><!-- Repository --></argument>
+            <argument><!-- Serializer --></argument>
         </service>
 
         <!-- Form Abstract Action -->

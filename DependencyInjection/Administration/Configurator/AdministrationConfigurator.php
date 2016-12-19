@@ -31,16 +31,31 @@ class AdministrationConfigurator implements AdministrationConfiguratorInterface
                 ->defaultValue($this->getRepositoryName())
                 ->cannotBeEmpty()
             ->end()
+            ->scalarNode('serializer')
+                ->info('Must implements Symfony\Component\Serializer\SerializerInterface')
+                ->defaultValue($this->getSerializer())
+                ->cannotBeEmpty()
+            ->end()
         ;
     }
 
     /**
-     * Get repository name
+     * Get repository service id
      *
      * @return string
      */
     protected function getRepositoryName()
     {
         return 'repository.[name]';
+    }
+
+    /**
+     * Get serializer service id
+     *
+     * @return string
+     */
+    protected function getSerializer()
+    {
+        return 'elao_rest_action.serializer.default';
     }
 }

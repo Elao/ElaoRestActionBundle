@@ -27,9 +27,8 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('serializer')
-                    ->info('Serializer service for REST actions')
-                    ->isRequired()
-                    ->cannotBeEmpty()
+                    ->info('Serializer service for REST actions. E.g. "elao_rest_action.serializer.symfony", "elao_rest_action.serializer.jms", ect.')
+                    ->defaultNull()
                 ->end()
             ->end();
 
