@@ -17,25 +17,19 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Jms Serializer compiler pass
+ * Symfony Serializer compiler pass
  */
-class JmsSerializerCompilerPass implements CompilerPassInterface
+class SymfonySerializerCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('jms_serializer')) {
+        if (!$container->has('serializer')) {
             return;
         }
 
-        $container->setDefinition(
-            'elao_rest_action.serializer.jms',
-            new Definition(
-                'Elao\Bundle\RestActionBundle\Serializer\JmsSerializer',
-                [new Reference('jms_serializer')]
-            )
-        );
+        $container->setAlias('elao_rest_action.serializer.symfony', 'serializer');
     }
 }

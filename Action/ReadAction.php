@@ -28,7 +28,11 @@ class ReadAction extends Action
         $format = $this->getFormat($request);
         $model  = $this->getModel($request);
 
-        return $this->createResponse($this->getViewParameters($request, $model), 200, $format);
+        return $this->createResponse(
+            $this->getiewParameters($request, $model),
+            200,
+            $format
+        );
     }
 
     /**
@@ -53,10 +57,8 @@ class ReadAction extends Action
      */
     protected function getModel(Request $request)
     {
-        $model = $this->modelManager->find($request->get('_route_params'));
-
-        if (!$model) {
-            throw new NotFoundHttpException;
+        if (!$model = $this->repository->findOneBy($request->get('_route_params'))) {
+            throw new NotFoundHttpException();
         }
 
         return $model;

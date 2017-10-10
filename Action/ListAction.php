@@ -22,7 +22,7 @@ use Elao\Bundle\AdminBundle\Behaviour\FilterSetInterface;
 /**
  * The default action for list pages
  */
-class ListAction extends Action
+class ListAction extends AbstractAction
 {
     /**
      * Form factory
@@ -39,15 +39,23 @@ class ListAction extends Action
     protected $paginator;
 
     /**
-     * Inject dependencies
+     * Set paginator
      *
-     * @param FormFactoryInterface $formFactory
      * @param Paginator $paginator
      */
-    public function __construct(FormFactoryInterface $formFactory, Paginator $paginator)
+    public function setPaginator(\Knp\Component\Pager\Paginator $paginator)
+    {
+        $this->paginator = $paginator;
+    }
+
+    /**
+     * Set form factory
+     *
+     * @param FormFactoryInterface $formFactory
+     */
+    public function setFormFactory(FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
-        $this->paginator   = $paginator;
     }
 
     /**
@@ -63,7 +71,9 @@ class ListAction extends Action
         $filters = $this->getFilters($filterForm);
         $models  = $this->getModels($request, $filters);
 
-        return $this->createResponse($this->getViewParameters($request, $models), 200, $format);
+        return $this->createResponse(
+            $this->getViewParameters($request, $models), 200, $format
+        );
     }
 
     /**
@@ -77,30 +87,7 @@ class ListAction extends Action
             return null;
         }
 
-        $formType = $this->getFormType($this->parameters['filters']['form_type']);
-        $data     = $this->getFormData($this->parameters['filters']['data']);
-
-        return $this->formFactory->create($formType, $data);
-    }
-
-    /**
-     * Get form data
-     *
-     * @param mixed $data
-     *
-     * @return array
-     */
-    protected function getFormData($data)
-    {
-        if (!$data) {
-            return [];
-        }
-
-        if (!class_exists($data)) {
-            throw new \Exception(sprintf('Unknow form data class "%s".', $data));
-        }
-
-        return new $data;
+        return $this->formFactory->create($this->parameters['filters']['form']);
     }
 
     /**
@@ -142,26 +129,14 @@ class ListAction extends Action
     public function getModels(Request $request, array $filters = [])
     {
         if (!$this->parameters['pagination']['enabled']) {
-            return $this->modelManager->findAll($filters);
+            return $this->repository->findBy($filters);
         }
 
-        return $this->paginate($request, $this->modelManager->getTarget($filters));
-    }
-
-    /**
-     * Paginate the query/list of item
-     *
-     * @param Request $request
-     * @param mixed $target
-     *
-     * @return PaginationInterface
-     */
-    protected function paginate(Request $request, $target)
-    {
-        $page    = $request->query->get('page', 1);
+        $page = $request->get('page', 1);
         $perPage = $this->parameters['pagination']['per_page'];
+        $paginable = $this->repository->paginate($filters);
 
-        return $this->paginator->paginate($target, $page, $perPage);
+        return $this->paginator->paginate($paginable, $page, $perPage);
     }
 
     /**
@@ -175,18 +150,6 @@ class ListAction extends Action
     protected function getViewParameters(Request $request, $models)
     {
         return [$this->getRootKey() => $models];
-    }
-
-    /**
-     * Get form type
-     *
-     * @param string $formType
-     *
-     * @return string|Symfony\Component\Form\AbstractType
-     */
-    protected function getFormType($formType)
-    {
-        return class_exists($formType) ? new $formType : $formType;
     }
 
     /**

@@ -11,7 +11,9 @@
 
 namespace Elao\Bundle\RestActionBundle;
 
-use Elao\Bundle\RestActionBundle\DependencyInjection\Compiler\JmsSerializerCompilerPass;
+use Elao\Bundle\RestActionBundle\DependencyInjection\Action\Factory;
+use Elao\Bundle\RestActionBundle\DependencyInjection\Administration\Configurator\AdministrationConfigurator;
+use Elao\Bundle\RestActionBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -24,6 +26,16 @@ class ElaoRestActionBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new JmsSerializerCompilerPass());
+        $container->addCompilerPass(new Compiler\JmsSerializerCompilerPass());
+        $container->addCompilerPass(new Compiler\SymfonySerializerCompilerPass());
+        $container->addCompilerPass(new Compiler\DefaultSerializerCompilerPass());
+
+        $extension = $container->getExtension('elao_admin');
+        $extension->addAdministrationConfigurator(new AdministrationConfigurator());
+        $extension->addActionFactory(new Factory\ReadActionFactory());
+        $extension->addActionFactory(new Factory\CreateActionFactory());
+        $extension->addActionFactory(new Factory\UpdateActionFactory());
+        $extension->addActionFactory(new Factory\DeleteActionFactory());
+        $extension->addActionFactory(new Factory\ListActionFactory());
     }
 }
