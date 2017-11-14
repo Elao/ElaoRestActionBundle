@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * The default action for create pages
  */
-class CreateAction extends AbsractFormAction
+class CreateAction extends AbstractFormAction
 {
     /**
      * Success code
