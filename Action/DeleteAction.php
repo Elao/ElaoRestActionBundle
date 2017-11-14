@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * The delete action for update pages
  */
-class DeleteAction extends AbsractFormAction
+class DeleteAction extends AbstractFormAction
 {
     /**
      * Default success code
