@@ -14,8 +14,6 @@
         <!-- Form Abstract Action -->
         <service id="elao_rest_action.action.form" class="Elao\Bundle\RestActionBundle\Action\AbstractFormAction" parent="elao_rest_action.action" abstract="true">
             <argument type="service" id="form.factory" />
-            <argument type="service" id="elao_admin.notifier" />
-            <argument type="service" id="elao_admin.route_resolver" />
         </service>
 
         <!-- List action -->
